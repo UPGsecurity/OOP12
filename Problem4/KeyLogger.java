@@ -8,7 +8,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 public class KeyLogger extends Application {
-
     @Override
     public void start(Stage stage) {
 
@@ -17,7 +16,6 @@ public class KeyLogger extends Application {
         TextArea log = new TextArea();
         log.setEditable(false);
         log.setPrefRowCount(5);
-
         Button clearBtn = new Button("Clear Log");
         clearBtn.setOnAction(e -> log.clear());
         input.setOnKeyPressed((KeyEvent e) -> {
@@ -32,6 +30,28 @@ public class KeyLogger extends Application {
                     " | Ctrl: " + ctrl + "\n"
             );
         });
-      // davom etiriladi 
+      input.setOnKeyReleased(e -> {
+            KeyCode code = e.getCode();
+            log.appendText("RELEASED | Code: " + code + "\n");
+        });
+
+        input.setOnKeyTyped(e -> {
+            String ch = e.getCharacter();
+            log.appendText("TYPED | Char: " + ch + "\n");
+        });
+
+        VBox root = new VBox(10);
+        root.setStyle("-fx-padding: 20;");
+        root.getChildren().addAll(input, log, clearBtn);
+
+        Scene scene = new Scene(root, 420, 320);
+        stage.setTitle("Key Logger");
+        stage.setScene(scene);
+        stage.show();
+    }
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
 
      
